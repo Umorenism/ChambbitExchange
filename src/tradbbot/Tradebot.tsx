@@ -10,7 +10,7 @@ export const Tradebot = () => {
       <div className="fixed bg-black text-white w-full top-0 p-4 z-10 left-0 right-0">
         <div className="flex justify-between items-center">
           <FaArrowLeft />
-          <h1>Trade Bot</h1>
+          <h1 className="text-2xl font-serif text-green-500">Trade Bot</h1>
           <TbMessageCircleCancel />
         </div>
       </div>
