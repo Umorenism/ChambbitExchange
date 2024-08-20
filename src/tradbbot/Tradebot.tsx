@@ -2,8 +2,28 @@ import { FaArrowLeft } from "react-icons/fa6";
 import { Footer } from "../component/footer/Footer";
 import { TbMessageCircleCancel } from "react-icons/tb";
 import { motion } from "framer-motion";
+// import axios from "axios";
+// import { useEffect, useState } from "react";
 
 export const Tradebot = () => {
+  //   const [data, setData] = useState(null);
+  //   const [loading, setLoading] = useState<boolean>(false);
+  //   const [error, setError] = useState<string | null>(null);
+
+  //   useEffect(() => {
+  //     const getData = async () => {
+  //       try {
+  //         const response = await axios.get("");
+  //         setLoading(true);
+  //         setData(response.data);
+  //       } catch (err) {
+  //         setError("an error ocurs");
+  //         setLoading(false);
+  //       }
+  //     };
+  //     getData();
+  //   }, []);
+
   return (
     <div className="flex flex-col h-screen bg-gray-950">
       {/* Header */}
