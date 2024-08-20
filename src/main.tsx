@@ -54,6 +54,7 @@ import { SubHeaderComp } from "./component/navbar/navbar/SubHeaderComp.tsx";
 import { GetStartedHeader } from "./component/GetStartedHeader.tsx";
 import { KycResponse } from "./kyc/KycResponse.tsx";
 import { Game } from "./game/Game.tsx";
+import { Tradebot } from "./tradbbot/Tradebot.tsx";
 
 const userToken = localStorage.getItem("userToken");
 
@@ -204,6 +205,10 @@ const router = createBrowserRouter([
       {
         path: "/otpseller",
         element: <OtpSell />,
+      },
+      {
+        path: "/tradebot",
+        element: <Tradebot />,
       },
       {
         path: "/game",
