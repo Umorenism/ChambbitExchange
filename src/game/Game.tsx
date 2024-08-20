@@ -48,11 +48,14 @@ export const Game = () => {
             <span className="text-green-700 text-2xl ">Game</span> Listing
           </h1>
           <ul className="space-y-3 ">
-            <li className="py-4 p-1   text-xl rounded-md underline cursor-pointer hover:text-white transition-colors duration-300 bg-orange-600 ">
-              <a href="https://spin-theta.vercel.app"> Spin Gaming</a>
+            <li className="py-4 p-1 font-semibold  text-xl rounded-md underline cursor-pointer hover:text-white transition-colors duration-300 bg-orange-600 ">
+              <a href="https://spin-theta.vercel.app">
+                {" "}
+                <span className="text-white">Spin Gaming</span>
+              </a>
             </li>
-            <li className="py-4 p-1  text-xl rounded-md underline cursor-pointer hover:text-white transition-colors duration-300 bg-green-600 ">
-              Tap & Earn
+            <li className="py-4 p-1 font-semibold text-xl rounded-md underline cursor-pointer hover:text-white transition-colors duration-300 bg-green-600 ">
+              <span className="text-white">Tap & Earn</span>
             </li>
           </ul>
         </motion.div>
@@ -60,7 +63,7 @@ export const Game = () => {
         <h1 className="text-slate-200 py-3 text-2xl font-semibold">
           Views Our Games
         </h1>
-        <div className="snap-x snap-mandatory overflow-x-auto scroll-smooth flex space-x-4 p-4 bg-gray-100 ">
+        <div className="snap-x snap-mandatory overflow-x-auto scroll-smooth flex space-x-4 p-4 bg-gray-100  ">
           <div className="snap-center shrink-0">
             <img
               src="https://images.unsplash.com/photo-1604999565976-8913ad2ddb7c?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=320&h=160&q=80"
