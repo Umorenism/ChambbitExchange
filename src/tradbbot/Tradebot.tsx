@@ -1,6 +1,7 @@
 import { FaArrowLeft } from "react-icons/fa6";
 import { Footer } from "../component/footer/Footer";
 import { TbMessageCircleCancel } from "react-icons/tb";
+import { motion } from "framer-motion";
 
 export const Tradebot = () => {
   return (
@@ -16,14 +17,22 @@ export const Tradebot = () => {
 
       {/* Content */}
       <div className="flex-grow pt-16 text-white pb-16 overflow-y-auto p-4 min-h-screen">
-        <div className="bg-gray-200 flex justify-between items-center  rounded-full  text-xl font-semibold">
-          <div className="bg-green-500 h-full py-2 m-1 px-10 rounded-full  ">
+        <div className="bg-gray-200 flex justify-between items-center rounded-full text-xl font-semibold">
+          <div className="bg-green-500 h-full py-2 m-1 px-10 rounded-full">
             Buy
           </div>
-          <button className="mr-2 text-red-600 text-2xl font-semibold">
-            {" "}
-            sell
-          </button>
+          <motion.button
+            whileHover={{
+              scale: 1.1,
+              //   backgroundColor: "#ff0000",
+              color: "#000",
+            }}
+            whileTap={{ scale: 0.9 }}
+            transition={{ type: "spring", stiffness: 300 }}
+            className="mr-2 text-red-600 text-2xl font-semibold"
+          >
+            Sell
+          </motion.button>
         </div>
 
         <div className="flex mt-2 justify-between">
@@ -85,9 +94,18 @@ export const Tradebot = () => {
           </div>
           <div className="flex mt-2 justify-between">
             <div className="w-full">
-              <button className="bg-green-700 w-full mt-2 py-3 rounded-lg font-bold hover:bg-red-800 hover:text-green-500">
-                Excute Trade
-              </button>
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  backgroundColor: "#006400",
+                  color: "#fff",
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="bg-green-700 w-full mt-2 py-3 rounded-lg font-bold"
+              >
+                Execute Trade
+              </motion.button>
             </div>
           </div>
         </div>
