@@ -128,6 +128,22 @@ export const Tradebot = () => {
               </motion.button>
             </div>
           </div>
+          <div className="flex mt-2 justify-between">
+            <div className="w-full">
+              <motion.button
+                whileHover={{
+                  scale: 1.05,
+                  backgroundColor: "#006400",
+                  color: "#fff",
+                }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ type: "spring", stiffness: 300 }}
+                className="bg-red-600 w-full mt-2 py-3 rounded-lg font-bold"
+              >
+                Delete Trade
+              </motion.button>
+            </div>
+          </div>
         </div>
       </div>
 
