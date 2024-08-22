@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+
 import Select, { StylesConfig, SingleValue } from "react-select";
 
 // Define the option type
@@ -41,7 +41,7 @@ const App: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center flex-col">
-      <Link to="/pp" className="w-full">
+      <div className="w-full">
         <Select
           options={cryptoOptions}
           styles={customStyles}
@@ -50,10 +50,10 @@ const App: React.FC = () => {
           isSearchable={true}
           placeholder="Search "
         />
-      </Link>
-      <Link to="/pp">
+      </div>
+      <div>
         <p style={{ display: "none" }}>{selectedCrypto}</p>
-      </Link>
+      </div>
     </div>
   );
 };
