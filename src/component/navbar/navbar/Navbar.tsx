@@ -38,9 +38,14 @@ export const Navbar = () => {
           <img src={logo} alt="logo" className="h-10 w-40" />
         </div>
 
-        <div className="flex gap-4 items-center">
+        <div className="flex gap-4 items-center ">
           <IoMdHeadset className="text-white" size={25} />
-          <FaBell size={25} />
+          <div className="relative">
+            <p className="absolute h-5 w-5 rounded-full bg-red-600 text-sm">
+              12
+            </p>
+            <FaBell size={35} />
+          </div>
         </div>
       </div>
     </div>
