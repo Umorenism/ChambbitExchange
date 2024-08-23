@@ -1,61 +1,55 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { FiSearch } from "react-icons/fi"; //
 
-import Select, { StylesConfig, SingleValue } from "react-select";
-
-// Define the option type
-interface CryptoOption {
-  value: string;
-  label: string;
+interface SearchResult {
+  id: string;
+  name: string;
 }
 
-// Dummy cryptocurrency options
-const cryptoOptions: CryptoOption[] = [
-  { value: "btc", label: "Bitcoin (BTC)" },
-  { value: "chambs", label: "Chambs (CHAMB)" },
-  { value: "eth", label: "Ethereum (ETH)" },
-  { value: "bnb", label: "Binance Coin (BNB)" },
-  { value: "usdt", label: "Tether (USDT)" },
-  { value: "ada", label: "Cardano (ADA)" },
-  { value: "sol", label: "Solana (SOL)" },
-  { value: "xrp", label: "Ripple (XRP)" },
-  { value: "dot", label: "Polkadot (DOT)" },
-  { value: "doge", label: "Dogecoin (DOGE)" },
-  { value: "matic", label: "Polygon (MATIC)" },
-];
+const SearchBar: React.FC = () => {
+  const [query, setQuery] = useState<string>("");
+  const [results, setResults] = useState<SearchResult[]>([]);
 
-const customStyles: StylesConfig<CryptoOption, false> = {
-  option: (provided, state) => ({
-    ...provided,
-    color: state.isSelected ? "gray" : "gray",
-    backgroundColor: state.isSelected ? "lightgray" : "white",
-  }),
-};
+  const handleSearch = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-const App: React.FC = () => {
-  const [selectedCrypto, setSelectedCrypto] = useState<string>("");
-
-  // Handle select change
-  const handleSelectChange = (option: SingleValue<CryptoOption>) => {
-    setSelectedCrypto(option?.value || "");
+    try {
+      const response = await axios.get<{ items: SearchResult[] }>(
+        `https://api.example.com/search?q=${query}`
+      );
+      setResults(response.data.items);
+    } catch (error) {
+      console.error("Error fetching search results:", error);
+    }
   };
-
+  console.log(handleSearch);
   return (
-    <div className="flex justify-center items-center flex-col">
-      <div className="w-full">
-        <Select
-          options={cryptoOptions}
-          styles={customStyles}
-          className="w-full mt-4"
-          onChange={handleSelectChange}
-          isSearchable={true}
-          placeholder="Search "
+    <div className="p-4">
+      <form onSubmit={handleSearch} className="relative">
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search..."
+          className="w-full p-1 pl-10 border border-gray-300 bg-transparent rounded-full"
         />
-      </div>
-      <div>
-        <p style={{ display: "none" }}>{selectedCrypto}</p>
+        <button
+          type="submit"
+          className="absolute left-2 top-1/2 transform -translate-y-1/2"
+        >
+          <FiSearch className="text-gray-500" />
+        </button>
+      </form>
+      <div className="mt-4">
+        {results.map((result) => (
+          <div key={result.id} className="p-2 border-b border-gray-200">
+            {result.name}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default App;
+export default SearchBar;

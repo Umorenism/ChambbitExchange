@@ -11,7 +11,8 @@ import { Link } from "react-router-dom";
 // import { CiSearch } from "react-icons/ci";
 
 import b1 from "./button.jpg";
-import Search from "../select/Search";
+
+import SearchBar from "../select/Search";
 // import Search from "../select/Search";
 
 interface User {
@@ -108,7 +109,7 @@ export const TotalBal: React.FC = () => {
   return (
     <div className="bg-gray-950 py-5 text-gray-100 ">
       <div className="w-full p-2 overflow-y-auto bg-slate-950">
-        <Search />
+        <SearchBar />
         {/* <div className="text-white px-4 ml-3  bg-gray-700 rounded-lg border mt-6 j justify-center flex items-center gap-2  ">
           <input
             type="text"
