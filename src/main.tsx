@@ -55,6 +55,7 @@ import { GetStartedHeader } from "./component/GetStartedHeader.tsx";
 import { KycResponse } from "./kyc/KycResponse.tsx";
 import { Game } from "./game/Game.tsx";
 import { Tradebot } from "./tradbbot/Tradebot.tsx";
+import { Spingame } from "./game/Spingame.tsx";
 
 const userToken = localStorage.getItem("userToken");
 
@@ -213,6 +214,10 @@ const router = createBrowserRouter([
       {
         path: "/game",
         element: <Game />,
+      },
+      {
+        path: "/spingame",
+        element: <Spingame />,
       },
       {
         path: "/kyc",

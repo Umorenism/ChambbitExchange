@@ -42,9 +42,9 @@ export const Navbar = () => {
           <IoMdHeadset className="text-white" size={25} />
           <div className="relative">
             <p className="absolute h-5 w-5 rounded-full bg-red-600 text-sm">
-              12
+              76
             </p>
-            <FaBell size={35} />
+            <FaBell size={30} />
           </div>
         </div>
       </div>
