@@ -56,6 +56,7 @@ import { KycResponse } from "./kyc/KycResponse.tsx";
 import { Game } from "./game/Game.tsx";
 import { Tradebot } from "./tradbbot/Tradebot.tsx";
 import { Spingame } from "./game/Spingame.tsx";
+import { WalletBalView } from "./component/waletbal/WalletBalView.tsx";
 
 const userToken = localStorage.getItem("userToken");
 
@@ -357,6 +358,10 @@ const router = createBrowserRouter([
       {
         path: "/setting",
         element: <Setting />,
+      },
+      {
+        path: "/walletbalview",
+        element: <WalletBalView />,
       },
       {
         path: "/chart",
