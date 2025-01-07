@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { formatDistanceToNow } from "date-fns";
 import Hls from "hls.js";
-// import { io } from "socket.io-client";
 
-// const socket = io("http://localhost:4000"); // Connect to backend
-
-// TypeScript types for props and post structure
+import avatar1 from "../asset/images/avatar/1.jpg";
+import avatar2 from "../asset/images/avatar/2.jpg";
+import avatar3 from "../asset/images/avatar/3.jpg";
+import avatar4 from "../asset/images/avatar/4.jpg";
+import avatar5 from "../asset/images/avatar/5.jpg";
+import coin from "../asset/images/w3badoo/icon/coin.png";
 interface ScrollVideoProps {
   src: string;
   thumbnail: string;
@@ -52,28 +54,6 @@ const ScrollVideo: React.FC<ScrollVideoProps> = ({
       videoRef.current.src = src;
     }
   }, [src]);
-
-  // useEffect(() => {
-
-  //   const observer = new IntersectionObserver(
-  //     ([entry]) => {
-  //       if (entry.isIntersecting) {
-  //         videoRef.current?.play();
-  //       } else {
-  //         videoRef.current?.pause();
-  //       }
-  //     },
-  //     { threshold: 0.5 }
-  //   );
-
-  //   if (videoRef.current) {
-  //     observer.observe(videoRef.current);
-  //   }
-
-  //   return () => {
-  //     if (videoRef.current) observer.unobserve(videoRef.current);
-  //   };
-  // }, []);
 
   useEffect(() => {
     const videoElement = videoRef.current; // Create a local variable to store the reference
@@ -133,13 +113,12 @@ const Reels: React.FC = () => {
   const [globalMute, setGlobalMute] = useState<boolean>(true);
 
   const [stories] = useState<Story[]>([
-    { id: 1, username: "alex_travels", avatar: "assets/images/avatar/1.jpg" },
-    { id: 2, username: "foodie_jen", avatar: "assets/images/avatar/2.jpg" },
-    { id: 3, username: "mike_photos", avatar: "assets/images/avatar/3.jpg" },
-    { id: 4, username: "nature_sam", avatar: "assets/images/avatar/4.jpg" },
-    { id: 5, username: "pet_lover", avatar: "assets/images/avatar/5.jpg" },
+    { id: 1, username: "alex_travels", avatar: avatar1 },
+    { id: 2, username: "foodie_jen", avatar: avatar2 },
+    { id: 3, username: "mike_photos", avatar: avatar3 },
+    { id: 4, username: "nature_sam", avatar: avatar4 },
+    { id: 5, username: "pet_lover", avatar: avatar5 },
   ]);
-
   useEffect(() => {
     const fetchPosts = async () => {
       try {
@@ -168,68 +147,33 @@ const Reels: React.FC = () => {
       title: "The Adventure Begins",
       duration: "2h 15m",
       coin: 50,
-      poster: "assets/images/avatar/1.jpg",
+      poster: avatar1,
     },
     {
       id: 2,
       title: "Summer Dreams",
       duration: "1h 45m",
       coin: 100,
-      poster: "assets/images/avatar/2.jpg",
+      poster: avatar2,
     },
     {
       id: 3,
       title: "City Lights",
       duration: "2h 30m",
       coin: 30,
-      poster: "assets/images/avatar/3.jpg",
+      poster: avatar3,
     },
     {
       id: 4,
       title: "The Last Journey",
       duration: "2h 10m",
       coin: 25,
-      poster: "assets/images/avatar/4.jpg",
+      poster: avatar4,
     },
   ];
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
-      {/* <nav className="bg-white border-b sticky top-0 z-50">
-        <div className="max-w-4xl mx-auto flex justify-between items-center p-4">
-          <div className="flex items-center gap-2">
-            <img
-              src="/assets/logo.png"
-              alt="Starflix Logo"
-              className="w-16 h-16"
-            />
-            <h1 className="text-xl font-semibold">Starflix</h1>
-          </div>
-          <div className="flex gap-6 items-center">
-            <div className="flex items-center text-gray-700 text-sm font-medium gap-2">
-              <img
-                src="/assets/images/coins/red-coin.webp"
-                alt="Red Coin Logo"
-                className="w-6 h-6"
-              />
-              <span>0.00</span>
-            </div>
-            <div className="flex items-center text-gray-500 text-sm gap-2">
-              <img
-                src="/assets/images/w3badoo/icon/coin.png"
-                alt="Coin Logo"
-                className="w-6 h-6"
-              />
-              <span>0.00</span>
-            </div>
-          </div>
-          <div>
-            <i className="fas fa-bell text-2xl"></i>
-          </div>
-        </div>
-      </nav> */}
-
       {/* Stories */}
       <div className="w-full mx-auto mt-2">
         <div className="bg-white border rounded-lg p-4 mb-4 overflow-x-auto">
@@ -353,11 +297,7 @@ const Reels: React.FC = () => {
                     <h3 className="text-lg font-semibold">{movie.title}</h3>
                     <p className="text-gray-500">{movie.duration}</p>
                     <div className="flex items-center gap-2 mt-2">
-                      <img
-                        src="/assets/images/w3badoo/icon/coin.png"
-                        alt="Coin"
-                        className="w-4 h-4"
-                      />
+                      <img src={coin} alt="Coin" className="w-4 h-4" />
                       <span className="text-sm">{movie.coin}</span>
                     </div>
                   </div>
