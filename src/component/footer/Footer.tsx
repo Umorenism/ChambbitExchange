@@ -19,7 +19,6 @@ const footerItems = [
   {
     title: "Create",
     icon: <PiTrademarkFill />,
-    path: "/create",
   },
   {
     title: "Chat",
@@ -40,7 +39,7 @@ export const Footer = () => {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === "/create") {
+    if (location.pathname === "") {
       setShowModal(true);
     } else {
       setShowModal(false);
@@ -65,7 +64,7 @@ export const Footer = () => {
           {footerItems.map((item, index) => (
             <div key={index} className="text-white flex flex-col items-center">
               <Link
-                to={item.path}
+                to={item.path || "#"}
                 onClick={
                   item.title === "Create" ? handleModalToggle : undefined
                 }

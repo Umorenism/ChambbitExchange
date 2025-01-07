@@ -1,56 +1,348 @@
-import React from "react";
-import { BsThreeDots } from "react-icons/bs";
-import { FaThumbsUp, FaComment, FaEye } from "react-icons/fa";
+import React, { useState, useEffect, useRef } from "react";
+import { formatDistanceToNow } from "date-fns";
+import Hls from "hls.js";
+// import { io } from "socket.io-client";
 
-const VideoCard: React.FC = () => {
+// const socket = io("http://localhost:4000"); // Connect to backend
+
+// TypeScript types for props and post structure
+interface ScrollVideoProps {
+  src: string;
+  thumbnail: string;
+  isMuted: boolean;
+  toggleMute: () => void;
+}
+
+interface Story {
+  id: number;
+  username: string;
+  avatar: string;
+}
+
+interface Post {
+  _id: string;
+  avartar?: string;
+  userName: string;
+  createdAt: string;
+  postType: string;
+  file: { filepath: string; thumbnailUrl?: string }[];
+  likes: number;
+}
+
+// ScrollVideo component
+const ScrollVideo: React.FC<ScrollVideoProps> = ({
+  src,
+  thumbnail,
+  isMuted,
+  toggleMute,
+}) => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (Hls.isSupported()) {
+      const hls = new Hls();
+      hls.loadSource(src);
+      hls.attachMedia(videoRef.current!);
+
+      return () => hls.destroy();
+    } else if (
+      videoRef.current &&
+      videoRef.current.canPlayType("application/vnd.apple.mpegurl")
+    ) {
+      videoRef.current.src = src;
+    }
+  }, [src]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          videoRef.current?.play();
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => {
+      if (videoRef.current) observer.unobserve(videoRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = isMuted;
+    }
+  }, [isMuted]);
+
   return (
-    <div className="w-full mb-10  shadow-md ">
-      {/* Header */}
-      <div className="flex items-center justify-between p-4">
-        {/* Avatar, Name, and Date */}
-        <div className="flex items-center space-x-3">
-          <div className="w-12 h-12 rounded-full bg-gray-300"></div>
+    <div className="relative">
+      <video
+        ref={videoRef}
+        loop
+        playsInline
+        poster={thumbnail}
+        className="w-full object-cover rounded-lg"
+      />
+      <button
+        onClick={toggleMute}
+        className="absolute top-2 right-2 bg-gray-800 bg-opacity-75 text-white px-2 py-1 rounded-md text-sm flex items-center"
+      >
+        <i className={`fas ${isMuted ? "fa-volume-mute" : "fa-volume-up"}`}></i>
+      </button>
+    </div>
+  );
+};
+
+// Reels component
+const Reels: React.FC = () => {
+  const [currentTab, setCurrentTab] = useState<"movies" | "feeds">("movies");
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [globalMute, setGlobalMute] = useState<boolean>(true);
+
+  const [stories] = useState<Story[]>([
+    { id: 1, username: "alex_travels", avatar: "assets/images/avatar/1.jpg" },
+    { id: 2, username: "foodie_jen", avatar: "assets/images/avatar/2.jpg" },
+    { id: 3, username: "mike_photos", avatar: "assets/images/avatar/3.jpg" },
+    { id: 4, username: "nature_sam", avatar: "assets/images/avatar/4.jpg" },
+    { id: 5, username: "pet_lover", avatar: "assets/images/avatar/5.jpg" },
+  ]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch(
+          "https://starfaceapi.site/api/post/get-posts"
+        );
+        const data = await response.json();
+        setPosts(data.posts);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
+  const toggleGlobalMute = () => {
+    setGlobalMute((prev) => !prev);
+  };
+
+  const movies = [
+    {
+      id: 1,
+      title: "The Adventure Begins",
+      duration: "2h 15m",
+      coin: 50,
+      poster: "assets/images/avatar/1.jpg",
+    },
+    {
+      id: 2,
+      title: "Summer Dreams",
+      duration: "1h 45m",
+      coin: 100,
+      poster: "assets/images/avatar/2.jpg",
+    },
+    {
+      id: 3,
+      title: "City Lights",
+      duration: "2h 30m",
+      coin: 30,
+      poster: "assets/images/avatar/3.jpg",
+    },
+    {
+      id: 4,
+      title: "The Last Journey",
+      duration: "2h 10m",
+      coin: 25,
+      poster: "assets/images/avatar/4.jpg",
+    },
+  ];
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Navbar */}
+      {/* <nav className="bg-white border-b sticky top-0 z-50">
+        <div className="max-w-4xl mx-auto flex justify-between items-center p-4">
+          <div className="flex items-center gap-2">
+            <img
+              src="/assets/logo.png"
+              alt="Starflix Logo"
+              className="w-16 h-16"
+            />
+            <h1 className="text-xl font-semibold">Starflix</h1>
+          </div>
+          <div className="flex gap-6 items-center">
+            <div className="flex items-center text-gray-700 text-sm font-medium gap-2">
+              <img
+                src="/assets/images/coins/red-coin.webp"
+                alt="Red Coin Logo"
+                className="w-6 h-6"
+              />
+              <span>0.00</span>
+            </div>
+            <div className="flex items-center text-gray-500 text-sm gap-2">
+              <img
+                src="/assets/images/w3badoo/icon/coin.png"
+                alt="Coin Logo"
+                className="w-6 h-6"
+              />
+              <span>0.00</span>
+            </div>
+          </div>
           <div>
-            <h4 className="text-xl font-bold">John Doe</h4>
-            <p className="text-xs text-black">January 5, 2025</p>
+            <i className="fas fa-bell text-2xl"></i>
           </div>
         </div>
-        {/* Three Dots Icon */}
-        <BsThreeDots className="text-gray-600 cursor-pointer" size={20} />
+      </nav> */}
+
+      {/* Stories */}
+      <div className="w-full mx-auto mt-2">
+        <div className="bg-white border rounded-lg p-4 mb-4 overflow-x-auto">
+          <div className="flex gap-4">
+            {stories.map((story) => (
+              <div key={story.id} className="flex flex-col items-center">
+                <div className="w-16 h-16 rounded-full ring-2 ring-pink-500 p-1">
+                  <img
+                    src={story.avatar}
+                    alt={`${story.username}'s story`}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                </div>
+                <span className="text-xs mt-1">{story.username}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      {/* Video */}
-      <div className="relative">
-        <video
-          className="w-full h-auto"
-          autoPlay
-          loop
-          muted
-          controls
-          playsInline
-          src="https://www.w3schools.com/html/mov_bbb.mp4"
-        >
-          Your browser does not support the video tag.
-        </video>
-      </div>
+      {/* Tab Content */}
+      <div className="max-w-4xl mx-auto">
+        <div className="bg-white rounded-lg shadow-sm p-6">
+          <div className="flex gap-4 border-b mb-4">
+            <button
+              onClick={() => setCurrentTab("movies")}
+              className={`pb-2 px-4 ${
+                currentTab === "movies"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+            >
+              Movies
+            </button>
+            <button
+              onClick={() => setCurrentTab("feeds")}
+              className={`pb-2 px-4 ${
+                currentTab === "feeds"
+                  ? "border-b-2 border-blue-500 text-blue-500"
+                  : "text-gray-500"
+              }`}
+            >
+              Reels
+            </button>
+          </div>
 
-      {/* Footer - Comments, Likes, Views */}
-      <div className="flex px-4 py-6 text-gray-600">
-        <div className="flex items-center space-x-1 mr-2">
-          <FaThumbsUp size={16} />
-          <span className="text-sm">0</span>
-        </div>
-        <div className="flex items-center space-x-1 mr-2">
-          <FaComment size={16} />
-          <span className="text-sm">0</span>
-        </div>
-        <div className="flex items-center space-x-1 mr-2">
-          <FaEye size={16} />
-          <span className="text-sm">0</span>
+          {isLoading ? (
+            <div className="text-center">Loading...</div>
+          ) : currentTab === "feeds" ? (
+            <div className="grid sm:grid-cols-1 grid-cols-1 md:grid-cols-1 gap-6 mb-8">
+              {posts.map((post) => (
+                <div
+                  key={post._id}
+                  className="bg-white border rounded-lg shadow-md"
+                >
+                  {/* User Info */}
+                  <div className="flex items-center justify-between p-4">
+                    <div className="flex items-center">
+                      <img
+                        src={post.avartar || "default-avatar.jpg"}
+                        alt={post.userName}
+                        className="w-8 h-8 rounded-full object-cover"
+                      />
+                      <div className="ml-3">
+                        <span className="font-semibold">{post.userName}</span>
+                        <p className="text-gray-500 text-sm">
+                          {formatDistanceToNow(new Date(post.createdAt), {
+                            addSuffix: true,
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <button className="bg-blue-500 text-white text-sm px-4 py-2 rounded-lg shadow-sm hover:bg-blue-600 transition-colors duration-200">
+                      Follow
+                    </button>
+                  </div>
+
+                  {/* Content */}
+                  {post.postType === "video" && post.file[0]?.filepath ? (
+                    <ScrollVideo
+                      src={post.file[0].filepath}
+                      thumbnail={post.file[0].thumbnailUrl || ""}
+                      isMuted={globalMute}
+                      toggleMute={toggleGlobalMute}
+                    />
+                  ) : (
+                    <img
+                      src={post.file[0]?.filepath || "default-image.jpg"}
+                      alt="Post content"
+                      className="w-full object-cover rounded-lg"
+                    />
+                  )}
+
+                  {/* Like and Comment */}
+                  <div className="p-4 flex justify-between items-center">
+                    <div className="flex items-center gap-4">
+                      <i className="fas fa-heart text-red-500"></i>
+                      <span>{post.likes}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <i className="fas fa-comment"></i>
+                      <span>Comment</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+              {movies.map((movie) => (
+                <div
+                  key={movie.id}
+                  className="bg-white border rounded-lg shadow-md hover:shadow-lg transition-shadow duration-200"
+                >
+                  <img
+                    src={movie.poster}
+                    alt={movie.title}
+                    className="w-full h-48 object-cover rounded-t-lg"
+                  />
+                  <div className="p-4">
+                    <h3 className="text-lg font-semibold">{movie.title}</h3>
+                    <p className="text-gray-500">{movie.duration}</p>
+                    <div className="flex items-center gap-2 mt-2">
+                      <img
+                        src="/assets/images/w3badoo/icon/coin.png"
+                        alt="Coin"
+                        className="w-4 h-4"
+                      />
+                      <span className="text-sm">{movie.coin}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default VideoCard;
+export default Reels;

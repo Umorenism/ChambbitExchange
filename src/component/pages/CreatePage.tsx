@@ -1,5 +1,5 @@
-const CraetePage = () => {
-  return <div>create PAGE</div>;
-};
+// const CraetePage = () => {
+//   return <div>create PAGE</div>;
+// };
 
-export default CraetePage;
+// export default CraetePage;

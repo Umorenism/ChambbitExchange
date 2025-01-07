@@ -1,34 +1,19 @@
-// const Navbar = () => {
-//   return (
-//     <nav className="w-full fixed top-0 left-0 right-0 bg-gray-800 text-white shadow-md backdrop-blur-md z-50">
-//       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
-//         {/* Logo */}
-//         <div className="text-xl font-bold">Connect</div>
-
-//         {/* Menu Icon */}
-//         <div className="text-3xl flex ">
-//           <div>
-//             <img src="" alt="icons" />
-//           </div>
-//           <p>1</p>
-//           <p>1</p>
-//         </div>
-//       </div>
-//     </nav>
-//   );
-// };
-
-// export default Navbar;
-
-import { FaBell } from "react-icons/fa";
+import { FaArrowLeft, FaBell } from "react-icons/fa";
 import pics from "../../asset/loggg.png";
 
-const Navbar = () => {
+interface NabarProps {
+  title: string;
+}
+
+const Navbar = ({ title }: NabarProps) => {
   return (
     <nav className="w-full fixed top-0 left-0 right-0 bg-gray-800 text-white shadow-md backdrop-blur-md z-50">
       <div className="max-w-7xl mx-auto flex justify-between items-center px-4 py-3">
         {/* Logo */}
-        <div className="text-xl font-bold">Connect</div>
+        <div className="text-xl font-bold flex items-center justify-center gap-2">
+          <FaArrowLeft />
+          <p>{title}</p>
+        </div>
 
         {/* Menu Icons */}
         <div className="flex items-center space-x-4">
