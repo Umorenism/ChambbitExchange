@@ -11,7 +11,8 @@ import Navbar from "./component/Header/Navbar.tsx";
 import { Footer } from "./component/footer/Footer.tsx";
 import ChatPage from "./component/pages/ChatPage.tsx";
 import Login from "./auth/Login.tsx";
-import ProfilePage from "./component/pages/ProfilePage.tsx";
+
+import ProfileCard from "./component/pages/ProfilePage.tsx";
 
 // Pages
 
@@ -71,7 +72,7 @@ const router = createBrowserRouter([
         element: (
           <>
             <Navbar />
-            <ProfilePage />
+            <ProfileCard />
             <Footer />
           </>
         ),

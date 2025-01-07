@@ -11,7 +11,7 @@ const VideoCard: React.FC = () => {
         <div className="flex items-center space-x-3">
           <div className="w-12 h-12 rounded-full bg-gray-300"></div>
           <div>
-            <h4 className="text-sm font-bold">John Doe</h4>
+            <h4 className="text-xl font-bold">John Doe</h4>
             <p className="text-xs text-black">January 5, 2025</p>
           </div>
         </div>
@@ -26,6 +26,7 @@ const VideoCard: React.FC = () => {
           autoPlay
           loop
           muted
+          controls
           playsInline
           src="https://www.w3schools.com/html/mov_bbb.mp4"
         >
