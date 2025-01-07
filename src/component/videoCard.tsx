@@ -53,26 +53,52 @@ const ScrollVideo: React.FC<ScrollVideoProps> = ({
     }
   }, [src]);
 
+  // useEffect(() => {
+
+  //   const observer = new IntersectionObserver(
+  //     ([entry]) => {
+  //       if (entry.isIntersecting) {
+  //         videoRef.current?.play();
+  //       } else {
+  //         videoRef.current?.pause();
+  //       }
+  //     },
+  //     { threshold: 0.5 }
+  //   );
+
+  //   if (videoRef.current) {
+  //     observer.observe(videoRef.current);
+  //   }
+
+  //   return () => {
+  //     if (videoRef.current) observer.unobserve(videoRef.current);
+  //   };
+  // }, []);
+
   useEffect(() => {
+    const videoElement = videoRef.current; // Create a local variable to store the reference
+
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
-          videoRef.current?.play();
-        } else {
-          videoRef.current?.pause();
+        if (entry.isIntersecting && videoElement) {
+          videoElement.play();
+        } else if (videoElement) {
+          videoElement.pause();
         }
       },
       { threshold: 0.5 }
     );
 
-    if (videoRef.current) {
-      observer.observe(videoRef.current);
+    if (videoElement) {
+      observer.observe(videoElement);
     }
 
     return () => {
-      if (videoRef.current) observer.unobserve(videoRef.current);
+      if (videoElement) {
+        observer.unobserve(videoElement); // Cleanup using the local variable
+      }
     };
-  }, []);
+  }, []); // This dependency array ensures that the effect only runs once
 
   useEffect(() => {
     if (videoRef.current) {
